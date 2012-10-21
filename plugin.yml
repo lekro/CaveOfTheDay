@@ -1,0 +1,26 @@
+name: Cave of the Day
+main: krato.lekro.bukkitplugins.caveoftheday.CaveOfTheDay
+version: 0.1.2
+commands: 
+  cotd:
+    description: Teleports you to the Cave of the Day.
+    usage: There are no arguments. Just use /cotd
+    permission: caveoftheday.cotd
+    permission-message: You don't have permission to go to the Cave of the Day on this server! Ask your server admin to give you the permission.
+  cotdset:
+    description: Sets the Cave of the Day to your current location.
+    usage: There are no arguments. Just use /cotdset
+    permission: caveoftheday.cotdset
+    permission-message: You don't have permission to set the Cave of the Day on this server! Ask your server admin to give you the permission.
+permissions: 
+  caveoftheday.*:
+    description: Gives access to all Cave of the Day Commands
+    children:
+      caveoftheday.cotd: true
+      caveoftheday.cotdset: true
+  caveoftheday.cotd:
+    description: Lets you teleport to the Cave of the Day.
+    default: true
+  caveoftheday.cotdset:
+    description: Lets you set the Cave of the Day
+    default: op
