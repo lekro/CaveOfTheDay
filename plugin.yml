@@ -1,6 +1,6 @@
 name: Cave of the Day
 main: krato.lekro.bukkitplugins.caveoftheday.CaveOfTheDay
-version: 0.1.2
+version: 0.1.3a
 commands: 
   cotd:
     description: Teleports you to the Cave of the Day.

@@ -65,8 +65,6 @@ public class CaveOfTheDay extends JavaPlugin {
 				this.getConfig().set("hour-set", now.get(Calendar.HOUR_OF_DAY));
 				this.getConfig().set("minute-set", now.get(Calendar.MINUTE));
 				this.getConfig().set("second-set", now.get(Calendar.SECOND));
-				this.getConfig().set("millisecond-set", now.get(Calendar.MILLISECOND));
-				this.getConfig().set("am-pm-set", now.get(Calendar.AM_PM));
 				this.getConfig().set("player-set", player.getName());
 				this.saveConfig();
 				
@@ -83,6 +81,6 @@ public class CaveOfTheDay extends JavaPlugin {
 		
 	}
 	private String getTimeString() {
-		return this.getConfig().getInt("month-set")+"/"+this.getConfig().getInt("date-set")+"/"+this.getConfig().getInt("year-set")+" "+this.getConfig().getInt("hour-set")+":"+this.getConfig().getInt("minute-set")+":"+this.getConfig().getInt("second-set")+"."+this.getConfig().getInt("millsecond-set");
+		return this.getConfig().getInt("month-set")+"/"+this.getConfig().getInt("date-set")+"/"+this.getConfig().getInt("year-set")+" "+this.getConfig().getInt("hour-set")+":"+this.getConfig().getInt("minute-set")+":"+this.getConfig().getInt("second-set");
 	}
 }
