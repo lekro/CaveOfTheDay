@@ -16,16 +16,19 @@ public class CaveOfTheDay extends JavaPlugin {
 	File cotdfile;
 	//String timestring;
 	public void onEnable() {
-		cotdlocation = new Location(
+		if (this.getConfig().getString("world-name") != null) {
+			cotdlocation = new Location(
 				Bukkit.getServer().getWorld(this.getConfig().getString("world-name")),
 				this.getConfig().getDouble("x-coordinate"),
 				this.getConfig().getDouble("y-coordinate"),
 				this.getConfig().getDouble("z-coordinate"),
 				new Float(this.getConfig().getDouble("yaw-coordinate")),
 				new Float(this.getConfig().getDouble("pitch-coordinate"))
-				);
+				); 
+		}
 	}
 	public void onDisable() {
+		
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("cotd")) {
@@ -73,6 +76,9 @@ public class CaveOfTheDay extends JavaPlugin {
 			}
 			return true;
 		}
+		//if(cmd.getName().equalsIgnoreCase("poi")) {
+		//	return true;
+		//}
 		else {
 			return false;
 		}

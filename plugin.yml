@@ -1,6 +1,6 @@
 name: Cave of the Day
 main: krato.lekro.bukkitplugins.caveoftheday.CaveOfTheDay
-version: 0.1.3a
+version: 0.1.3d
 commands: 
   cotd:
     description: Teleports you to the Cave of the Day.
@@ -24,3 +24,6 @@ permissions:
   caveoftheday.cotdset:
     description: Lets you set the Cave of the Day
     default: op
+  caveoftheday.poi:
+    description: Lets you use the basic POI command
+    default: true
