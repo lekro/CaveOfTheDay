@@ -17,14 +17,13 @@ public class CaveOfTheDay extends JavaPlugin {
 	//String timestring;
 	public void onEnable() {
 		cotdlocation = new Location(
-				Bukkit.getWorlds().get(0),
+				Bukkit.getServer().getWorld(this.getConfig().getString("world-name")),
 				this.getConfig().getDouble("x-coordinate"),
 				this.getConfig().getDouble("y-coordinate"),
 				this.getConfig().getDouble("z-coordinate"),
 				new Float(this.getConfig().getDouble("yaw-coordinate")),
 				new Float(this.getConfig().getDouble("pitch-coordinate"))
 				);
-		//timestring = this.getConfig().getInt("month-set")+"/"+this.getConfig().getInt("date-set")+"/"+this.getConfig().getInt("year-set")+" "+this.getConfig().getInt("hour-set")+":"+this.getConfig().getInt("minute-set")+":"+this.getConfig().getInt("second-set")+"."+this.getConfig().getInt("millsecond-set");
 	}
 	public void onDisable() {
 	}
