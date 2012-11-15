@@ -1,6 +1,6 @@
 name: Cave of the Day
 main: krato.lekro.bukkitplugins.caveoftheday.CaveOfTheDay
-version: 0.1.3d
+version: 0.1.3e8
 commands: 
   cotd:
     description: Teleports you to the Cave of the Day.
@@ -12,6 +12,11 @@ commands:
     usage: There are no arguments. Just use /cotdset
     permission: caveoftheday.cotdset
     permission-message: You don't have permission to set the Cave of the Day on this server! Ask your server admin to give you the permission.
+  poi:
+    description: The Point of Interest command, use /poi help for help.
+    usage: /poi help
+    permission: caveoftheday.poi
+    permission-message: You don't have permissions to use the PoI.
 permissions: 
   caveoftheday.*:
     description: Gives access to all Cave of the Day Commands

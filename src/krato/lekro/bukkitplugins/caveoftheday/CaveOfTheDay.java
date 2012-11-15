@@ -2,6 +2,8 @@ package krato.lekro.bukkitplugins.caveoftheday;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CaveOfTheDay extends JavaPlugin {
 	Location cotdlocation;
 	File cotdfile;
+	Map<String, Location> pois;
 	//String timestring;
 	public void onEnable() {
 		if (this.getConfig().getString("world-name") != null) {
@@ -22,10 +25,13 @@ public class CaveOfTheDay extends JavaPlugin {
 				this.getConfig().getDouble("x-coordinate"),
 				this.getConfig().getDouble("y-coordinate"),
 				this.getConfig().getDouble("z-coordinate"),
-				new Float(this.getConfig().getDouble("yaw-coordinate")),
-				new Float(this.getConfig().getDouble("pitch-coordinate"))
+				(float) this.getConfig().getDouble("yaw-coordinate"),
+				(float) this.getConfig().getDouble("pitch-coordinate")
 				); 
 		}
+		pois = new HashMap<String,Location>();
+		pois.put("test1",new Location(Bukkit.getServer().getWorlds().get(0),0d,64d,0d));
+		pois.put("test2",new Location(Bukkit.getServer().getWorlds().get(0),20d,64d,20d));
 	}
 	public void onDisable() {
 		
@@ -55,18 +61,18 @@ public class CaveOfTheDay extends JavaPlugin {
 				sender.sendMessage(ChatColor.GREEN+"Cave of the Day set!");
 				Bukkit.getServer().broadcastMessage(ChatColor.BLUE+player.getDisplayName()+" has set the Cave of the Day! Use /cotd to go there!");
 				Calendar now = Calendar.getInstance();
-				this.getConfig().set("x-coordinate", cotdlocation.getX());
-				this.getConfig().set("y-coordinate", cotdlocation.getY());
-				this.getConfig().set("z-coordinate", cotdlocation.getZ());
-				this.getConfig().set("yaw-coordinate", cotdlocation.getYaw());
-				this.getConfig().set("pitch-coordinate", cotdlocation.getPitch());
+				this.getConfig().set("x-coordinate", new Double(cotdlocation.getX()));
+				this.getConfig().set("y-coordinate", new Double(cotdlocation.getY()));
+				this.getConfig().set("z-coordinate", new Double(cotdlocation.getZ()));
+				this.getConfig().set("yaw-coordinate", new Float(cotdlocation.getYaw()));
+				this.getConfig().set("pitch-coordinate", new Float(cotdlocation.getPitch()));
 				this.getConfig().set("world-name", cotdlocation.getWorld().getName());
-				this.getConfig().set("month-set", now.get(Calendar.MONTH));
-				this.getConfig().set("year-set", now.get(Calendar.YEAR));
-				this.getConfig().set("date-set", now.get(Calendar.DAY_OF_MONTH));
-				this.getConfig().set("hour-set", now.get(Calendar.HOUR_OF_DAY));
-				this.getConfig().set("minute-set", now.get(Calendar.MINUTE));
-				this.getConfig().set("second-set", now.get(Calendar.SECOND));
+				this.getConfig().set("month-set", new Integer(now.get(Calendar.MONTH)));
+				this.getConfig().set("year-set", new Integer(now.get(Calendar.YEAR)));
+				this.getConfig().set("date-set", new Integer(now.get(Calendar.DAY_OF_MONTH)));
+				this.getConfig().set("hour-set", new Integer(now.get(Calendar.HOUR_OF_DAY)));
+				this.getConfig().set("minute-set", new Integer(now.get(Calendar.MINUTE)));
+				this.getConfig().set("second-set", new Integer(now.get(Calendar.SECOND)));
 				this.getConfig().set("player-set", player.getName());
 				this.saveConfig();
 				
@@ -76,9 +82,50 @@ public class CaveOfTheDay extends JavaPlugin {
 			}
 			return true;
 		}
-		//if(cmd.getName().equalsIgnoreCase("poi")) {
-		//	return true;
-		//}
+		if(cmd.getName().equalsIgnoreCase("poi")) {
+			
+			if (args.length == 0) {
+				listPois(sender);
+			}
+			else if (args.length == 1) {
+				if (args[0].equalsIgnoreCase("tp")) {
+					sender.sendMessage("Tell me where to tp to! /poi tp <place>");
+				}
+				if (args[0].equalsIgnoreCase("set")) {
+					sender.sendMessage("Tell me what to set! /poi set <place> [x] [y] [z] [yaw] [pitch]");
+				}
+				else {
+					sender.sendMessage("I have no idea what you are talking about with your first argument of "+args[0]+"!");
+				}
+			}
+			else if (args.length == 2) {
+				if (args[0].equalsIgnoreCase("tp")) {
+					if (sender instanceof Player) {
+						sender.sendMessage("Ok, Teleporting where you want to go...");
+						Player player = (Player) sender;
+						if (pois.get(args[1]) != null) {
+							player.teleport(pois.get(args[1]));
+						}
+						else {
+							sender.sendMessage("That POI doesn't exist!");
+						}
+					}
+				}
+				if (args[0].equalsIgnoreCase("set")) {
+					if (sender instanceof Player) {
+						Player player = (Player) sender;
+						pois.put(args[1], player.getLocation());
+					}
+				}
+				else {
+					sender.sendMessage("I have no idea what you are talking about with your first argument of "+args[0]+"!");
+				}
+			}
+			else {
+				sender.sendMessage("Too many (or too less...) arguments!!");
+			}
+			return true;
+		}
 		else {
 			return false;
 		}
@@ -87,5 +134,10 @@ public class CaveOfTheDay extends JavaPlugin {
 	}
 	private String getTimeString() {
 		return this.getConfig().getInt("month-set")+"/"+this.getConfig().getInt("date-set")+"/"+this.getConfig().getInt("year-set")+" "+this.getConfig().getInt("hour-set")+":"+this.getConfig().getInt("minute-set")+":"+this.getConfig().getInt("second-set");
+	}
+	private void listPois(CommandSender sender) {
+		for (String poiString : pois.keySet()) {
+			sender.sendMessage(ChatColor.AQUA+poiString+" at ("+pois.get(poiString).getBlockX()+", "+pois.get(poiString).getBlockY()+", "+pois.get(poiString).getBlockZ()+")"+ChatColor.RESET);
+		}
 	}
 }
